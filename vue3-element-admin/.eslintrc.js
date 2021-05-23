@@ -19,6 +19,7 @@ module.exports = {
     '@typescript-eslint/interface-name-prefixed': 'off',
     '@typescript-eslint/no-non-null-assertion': 'off',
     '@typescript-eslint/ban-ts-ignore': 'off',
+    "no-unused-expressions": "off",
     "no-unused-expressions": "off"
   }
 }
