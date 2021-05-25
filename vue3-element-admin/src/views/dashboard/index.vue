@@ -5,11 +5,13 @@
     <!-- icon-class svg图标名称 class-name 额外的自定义类名 @click绑定事件 -->
     <svg-icon icon-class="404" class-name="custom-class" @click="sayHi"></svg-icon>
     <input type="text">
+    <el-button>size改变</el-button>
   </div>
 </template>
 
 <script lang="ts">
 import { getCurrentInstance, defineComponent } from 'vue'
+import { useRoute } from 'vue-router'
 
 export default defineComponent({
   name: 'Dashboard',
@@ -20,6 +22,8 @@ export default defineComponent({
     const sayHi = () => {
       proxy?.$message.success('恭喜你，这是一条成功消息')
     }
+    const route = useRoute()
+    console.log(route, 'vroute')
     return {
       sayHi
     }

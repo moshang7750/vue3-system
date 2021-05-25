@@ -1,11 +1,12 @@
 import { ActionTree, Module, MutationTree } from 'vuex'
 import { IRootState } from '../index' // 全局状态 root state 从src/store/index.ts里定义导出
-
+import { Size } from '@/plugins/element'
 // 定义app里state类型
 export interface IAppState {
   sidebar: { // 定义sidebar相关状态
     opened: boolean // 菜单导航展开时true 收缩时false
-  }
+  },
+  size: Size
 }
 
 // 定义mutations
@@ -13,13 +14,20 @@ const mutations: MutationTree<IAppState> = {
   TOGGLE_SIDEBAR(state) {
     // 这块儿就会有类型提示 写state.sidebar 都会提示
     state.sidebar.opened = !state.sidebar.opened
+  },
+  SET_SIZE(state, size: Size) {
+    state.size = size
   }
+
 }
 
 // 定义actions
 const actions: ActionTree<IAppState, IRootState> = {
   toggleSidebar({ commit }) { // 切换sidebar 收缩状态
     commit('TOGGLE_SIDEBAR')
+  },
+  setSize({ commit }, size: Size) {
+    commit('SET_SIZE', size)
   }
   // test_action({ commit }, payload: string) { // action如果有payload自己定义类型就行
   // }
@@ -33,7 +41,8 @@ const app: Module<IAppState, IRootState> = {
   state: {
     sidebar: { // 定义sidebar相关状态
       opened: true // 菜单导航展开时true 收缩时false
-    }
+    },
+    size: 'medium'
   },
   mutations,
   actions

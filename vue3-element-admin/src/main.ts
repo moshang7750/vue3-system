@@ -30,5 +30,8 @@ declare module '@vue/runtime-core' {
     $confirm: typeof ElMessageBox.confirm;
     $alert: typeof ElMessageBox.alert;
     $prompt: typeof ElMessageBox.prompt;
+    $ELEMENT: {
+      size: Size
+    }
   }
 }
