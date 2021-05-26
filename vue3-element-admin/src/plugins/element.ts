@@ -27,7 +27,11 @@ import 'dayjs/locale/zh-cn'
 // $ELEMENT size属性类型
 export type Size = 'default' | 'medium' | 'small' | 'mini'
 
-export default (app: App): void => {
+type ElementOptions = {
+  size: Size
+}
+
+export default (app: App, options: ElementOptions): void => {
   locale(lang)
 
   // 按需导入组件列表
@@ -65,7 +69,7 @@ export default (app: App): void => {
   // 说明文档：https://element-plus.gitee.io/#/zh-CN/component/quickstart#quan-ju-pei-zhi
   // 该对象目前支持 size 与 zIndex 字段。size 用于改变组件的默认尺寸 small，zIndex 设置弹框的初始 z-index（默认值：2000）。
   app.config.globalProperties.$ELEMENT = {
-    size: 'medium'
+    size: options.size
     // zIndex: 2000 弹框zIndex默认值：2000
   }
 }

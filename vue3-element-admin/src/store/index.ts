@@ -7,7 +7,7 @@ import getters from './getters'
 
 // 模块声明在根状态下
 export interface IRootState {
-  app: IAppState;
+  app: IAppState
   // test: ICountState;
 }
 
@@ -28,7 +28,7 @@ const persisteAppState = createPersistedState({
   key: 'vuex_app', // 存储名 默认都是vuex 多个模块需要指定 否则会覆盖
   // paths: ['app'] // 针对app这个模块持久化
   // 只针对app模块下sidebar.opened状态持久化
-  paths: ['app.sidebar.opened'] // 通过点连接符指定state路径
+  paths: ['app.sidebar.opened', 'app.size'] // 通过点连接符指定state路径
 })
 
 // 针对test模块持久化
@@ -52,7 +52,7 @@ export default createStore<IRootState>({
 // 定义自己的 `useStore` 组合式函数
 // https://next.vuex.vuejs.org/zh/guide/typescript-support.html#%E7%AE%80%E5%8C%96-usestore-%E7%94%A8%E6%B3%95
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export function useStore () {
+export function useStore() {
   return baseUseStore(key)
 }
 

@@ -21,7 +21,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, ref } from 'vue'
+import { defineComponent, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import variables from '@/styles/variables.scss'
 import { routes } from '@/router'

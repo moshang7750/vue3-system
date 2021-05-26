@@ -1,9 +1,9 @@
 <template>
   <div class="app-main">
     <!-- vue3 路由缓存 https://next.router.vuejs.org/guide/migration/index.html#router-view-keep-alive-and-transition -->
-    <router-view v-slot={Component}>
+    <router-view v-slot="{ Component }">
       <transition name="fade-transform" mode="out-in">
-        <keep-alive>
+        <keep-alive :include="cachedViews">
           <component :is="Component" :key="key" />
         </keep-alive>
       </transition>
@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue'
+import { computed, defineComponent, ref } from 'vue'
 import { useRoute } from 'vue-router'
 
 export default defineComponent({
@@ -20,8 +20,10 @@ export default defineComponent({
   setup() {
     const route = useRoute()
     const key = computed(() => route.path)
+    const cachedViews = ref([])
     return {
-      key
+      key,
+      cachedViews
     }
   }
 })
@@ -35,7 +37,7 @@ export default defineComponent({
 
 .fade-transform-enter-active,
 .fade-transform-leave-active {
-  transition: all .5s;
+  transition: all 0.5s;
 }
 
 .fade-transform-enter-from {

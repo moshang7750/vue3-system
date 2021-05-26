@@ -1,6 +1,6 @@
 <template>
   <div class="navbar">
-    <hambuger  @toggleClick="toggleSidebar" :is-active="sidebar.opened"/>
+    <hambuger @toggleClick="toggleSidebar" :is-active="sidebar.opened" />
     <breadcrumb />
     <div class="right-menu">
       <!-- 全屏 -->
@@ -9,6 +9,7 @@
       <el-tooltip content="Global Size" effect="dark" placement="bottom">
         <size-select class="right-menu-item hover-effect" />
       </el-tooltip>
+      <avatar />
     </div>
   </div>
 </template>
@@ -20,6 +21,7 @@ import Hambuger from '@/components/Hambuger/index.vue'
 import { useStore } from '@/store/index'
 import Screenfull from '@/components/Screenfull/index.vue'
 import SizeSelect from '@/components/SizeSelect/index.vue'
+import Avatar from '../Avatar/index.vue'
 
 export default defineComponent({
   name: 'Navbar',
@@ -27,7 +29,8 @@ export default defineComponent({
     Breadcrumb,
     Hambuger,
     Screenfull,
-    SizeSelect
+    SizeSelect,
+    Avatar
   },
   setup() {
     // 使用我们自定义的useStore 具备类型提示
@@ -57,18 +60,18 @@ export default defineComponent({
     justify-content: flex-end;
     padding-right: 15px;
     &-item {
-        padding: 0 8px;
-        font-size: 18px;
-        color: #5a5e66;
-        vertical-align: text-bottom;
-        &.hover-effect {
-          cursor: pointer;
-          transition: background .3s;
-          &:hover {
-            background: rgba(0, 0, 0, .025);
-          }
+      padding: 0 8px;
+      font-size: 18px;
+      color: #5a5e66;
+      vertical-align: text-bottom;
+      &.hover-effect {
+        cursor: pointer;
+        transition: background 0.3s;
+        &:hover {
+          background: rgba(0, 0, 0, 0.025);
         }
       }
+    }
   }
 }
 </style>
