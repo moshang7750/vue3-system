@@ -4,10 +4,12 @@ import createPersistedState from 'vuex-persistedstate'
 import app, { IAppState } from '@/store/modules/app'
 // import test, { ICountState } from './modules/test'
 import getters from './getters'
+import tagsView, { ITagsViewState } from './modules/tagsView'
 
 // 模块声明在根状态下
 export interface IRootState {
-  app: IAppState
+  app: IAppState;
+  tagsView: ITagsViewState;
   // test: ICountState;
 }
 
@@ -44,7 +46,8 @@ export default createStore<IRootState>({
   ],
   getters,
   modules: {
-    app
+    app,
+    tagsView
     // test // 只是测试多模块持久化
   }
 })

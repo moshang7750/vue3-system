@@ -21,7 +21,6 @@ export default defineComponent({
   setup(props) {
     // 判断接收的路径 是不是外链
     const isExt = computed(() => isExternal(props.to))
-    console.log(props.to, '111')
     const type = computed(() => {
       if (isExt.value) {
         return 'a'

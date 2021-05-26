@@ -6,7 +6,7 @@
     <div class="main-container">
       <div class="header">
         <NavBar />
-        <div class="tags-view">tagsview</div>
+        <TagsView />
       </div>
       <!-- AppMain router-view -->
       <app-main />
@@ -19,12 +19,14 @@ import { defineComponent } from 'vue'
 import Sidebar from './components/Sidebar/index.vue'
 import AppMain from './components/AppMain.vue'
 import NavBar from './components/NavBar/index.vue'
+import TagsView from './components/TagsView/index.vue'
 
 export default defineComponent({
   components: {
     Sidebar,
     NavBar,
-    AppMain
+    AppMain,
+    TagsView
   }
 })
 </script>
@@ -46,7 +48,7 @@ export default defineComponent({
         }
         .tags-view {
           height: 34px;
-          background: #12efff;
+          // background: #12efff;
         }
       }
       .app-main {
