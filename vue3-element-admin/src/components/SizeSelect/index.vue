@@ -7,13 +7,13 @@
       <template #dropdown>
         <el-dropdown-menu>
           <el-dropdown-item
-              v-for="item in sizeOptions"
-              :key="item.value"
-              :command="item.value"
-              :disabled="item.value === size"
-            >
-              {{ item.label }}
-            </el-dropdown-item>
+            v-for="item in sizeOptions"
+            :key="item.value"
+            :command="item.value"
+            :disabled="item.value === size"
+          >
+            {{ item.label }}
+          </el-dropdown-item>
         </el-dropdown-menu>
       </template>
     </el-dropdown>
@@ -22,13 +22,21 @@
 
 <script lang="ts">
 import { Size } from '@/plugins/element'
-import { ComponentInternalInstance, ComponentPublicInstance, computed, defineComponent, getCurrentInstance, nextTick, ref } from 'vue'
+import {
+  ComponentInternalInstance,
+  ComponentPublicInstance,
+  computed,
+  defineComponent,
+  getCurrentInstance,
+  nextTick,
+  ref
+} from 'vue'
 import { useStore } from '@/store'
 import { useRoute, useRouter } from 'vue-router'
 
 export default defineComponent({
   name: 'SizeSelect',
-  setup () {
+  setup() {
     const store = useStore()
     const route = useRoute()
     const router = useRouter()
@@ -42,8 +50,9 @@ export default defineComponent({
       { label: 'Small', value: 'small' },
       { label: 'Mini', value: 'mini' }
     ])
-
+    // 刷新当前路由
     const refreshView = () => {
+      store.dispatch('tagsView/delAllCachedViews')
       const { fullPath } = route
       nextTick(() => {
         router.replace({
@@ -76,7 +85,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-  .size-icon {
-    font-size: 18px;
-  }
+.size-icon {
+  font-size: 18px;
+}
 </style>

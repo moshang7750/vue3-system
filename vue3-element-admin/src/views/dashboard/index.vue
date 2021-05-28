@@ -3,14 +3,18 @@
     <h1>Dashboard page</h1>
     <svg-icon icon-class="bug"></svg-icon>
     <!-- icon-class svg图标名称 class-name 额外的自定义类名 @click绑定事件 -->
-    <svg-icon icon-class="404" class-name="custom-class" @click="sayHi"></svg-icon>
-    <input type="text">
+    <svg-icon
+      icon-class="404"
+      class-name="custom-class"
+      @click="sayHi"
+    ></svg-icon>
+    <input v-model="value" type="text" />
     <el-button>size改变</el-button>
   </div>
 </template>
 
 <script lang="ts">
-import { getCurrentInstance, defineComponent } from 'vue'
+import { getCurrentInstance, defineComponent, ref } from 'vue'
 import { useRoute } from 'vue-router'
 
 export default defineComponent({
@@ -23,17 +27,20 @@ export default defineComponent({
       proxy?.$message.success('恭喜你，这是一条成功消息')
     }
     const route = useRoute()
+    const value = ref('默认缓存')
     console.log(route, 'vroute')
     return {
-      sayHi
+      sayHi,
+      value
     }
   }
 })
 </script>
 
 <style lang="scss">
-  .custom-class { // 自定义样式404
-    font-size: 200px;
-    color: green;
-  }
+.custom-class {
+  // 自定义样式404
+  font-size: 200px;
+  color: green;
+}
 </style>

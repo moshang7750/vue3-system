@@ -32,29 +32,19 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-  .app-wrapper {
+.app-wrapper {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  .main-container {
+    flex: 1;
     display: flex;
-    width: 100%;
-    height: 100%;
-    .main-container {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      .header {
-        // background: cyan;
-        .navbar {
-          height: 50px;
-          // background: #1890ff;
-        }
-        .tags-view {
-          height: 34px;
-          // background: #12efff;
-        }
-      }
-      .app-main {
-        /* 50= navbar  50  如果有tagsview + 34  */
-        min-height: calc(100vh - 84px);
-      }
+    flex-direction: column;
+    overflow: hidden;
+    .app-main {
+      /* 50= navbar  50  如果有tagsview + 34  */
+      min-height: calc(100vh - 84px);
     }
   }
+}
 </style>

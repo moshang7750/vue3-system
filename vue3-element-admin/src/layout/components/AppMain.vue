@@ -12,15 +12,19 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from 'vue'
+import { computed, defineComponent } from 'vue'
 import { useRoute } from 'vue-router'
+import { useStore } from '@/store'
 
 export default defineComponent({
   name: 'AppMain',
   setup() {
     const route = useRoute()
+    const store = useStore()
     const key = computed(() => route.path)
-    const cachedViews = ref([])
+    // 缓存路由集合 暂时先是空数组
+    const cachedViews = computed(() => store.state.tagsView.cachedViews)
+    console.log(cachedViews, ' cachedViews')
     return {
       key,
       cachedViews

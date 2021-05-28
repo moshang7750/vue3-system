@@ -17,7 +17,8 @@ export const asyncRoutes: Array<RouteRecordRaw> = [
           ),
         meta: {
           title: 'Documentation',
-          icon: 'el-icon-platform-eleme'
+          icon: 'el-icon-platform-eleme',
+          hidden: false
         }
       }
     ]
@@ -52,6 +53,7 @@ export const asyncRoutes: Array<RouteRecordRaw> = [
     children: [
       {
         path: 'menu',
+        name: 'Menu Management',
         component: () =>
           import(/* webpackChunkName: "menu" */ '@/views/system/menu.vue'),
         meta: {
@@ -60,20 +62,20 @@ export const asyncRoutes: Array<RouteRecordRaw> = [
       },
       {
         path: 'role',
+        name: 'Role Management',
         component: () =>
           import(/* webpackChunkName: "role" */ '@/views/system/role.vue'),
         meta: {
-          title: 'Role Management',
-          hidden: true
+          title: 'Role Management'
         }
       },
       {
         path: 'user',
+        name: 'User Management',
         component: () =>
           import(/* webpackChunkName: "user" */ '@/views/system/user.vue'),
         meta: {
-          title: 'User Management',
-          hidden: true
+          title: 'User Management'
         }
       }
     ]
