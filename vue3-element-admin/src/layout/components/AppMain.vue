@@ -24,7 +24,6 @@ export default defineComponent({
     const key = computed(() => route.path)
     // 缓存路由集合 暂时先是空数组
     const cachedViews = computed(() => store.state.tagsView.cachedViews)
-    console.log(cachedViews, ' cachedViews')
     return {
       key,
       cachedViews

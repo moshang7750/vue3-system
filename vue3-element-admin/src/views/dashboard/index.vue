@@ -9,7 +9,7 @@
       @click="sayHi"
     ></svg-icon>
     <input v-model="value" type="text" />
-    <el-button>size改变</el-button>
+    <el-button type="primary">size改变</el-button>
   </div>
 </template>
 

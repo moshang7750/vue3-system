@@ -2,38 +2,47 @@
   <div class="tags-view-container">
     <scroll-panel>
       <div class="tags-view-wrapper">
-          <router-link
-            class="tags-view-item"
-            :class="{
-              active: isActive(tag)
-            }"
-            v-for="(tag, index) in visitedTags"
-            :key="index"
-            :to="{ path: tag.path, query: tag.query, fullPath: tag.fullPath }"
-            tag="span"
+        <router-link
+          class="tags-view-item"
+          :class="{
+            active: isActive(tag)
+          }"
+          :style="{
+            backgroundColor: isActive(tag) ? themeColor : '',
+            borderColor: isActive(tag) ? themeColor : ''
+          }"
+          v-for="(tag, index) in visitedTags"
+          :key="index"
+          :to="{ path: tag.path, query: tag.query, fullPath: tag.fullPath }"
+          tag="span"
+        >
+          <el-dropdown
+            trigger="contextmenu"
+            @command="command => handleTagCommand(command, tag)"
           >
-            <el-dropdown
-              trigger="contextmenu"
-              @command="command => handleTagCommand(command, tag)">
-              <span>
-                {{ tag.meta.title }}
-                <!-- affix固定的路由tag是无法删除 -->
-                <span
-                  v-if="!isAffix(tag)"
-                  class="el-icon-close"
-                  @click.prevent.stop="closeSelectedTag(tag)"
-                ></span>
-              </span>
-              <template #dropdown>
-                <el-dropdown-menu>
-                  <el-dropdown-item command="refresh">刷新</el-dropdown-item>
-                  <el-dropdown-item command="all">关闭所有</el-dropdown-item>
-                  <el-dropdown-item command="other">关闭其他</el-dropdown-item>
-                  <el-dropdown-item command="self" v-if="!tag.meta || !tag.meta.affix">关闭</el-dropdown-item>
-                </el-dropdown-menu>
-              </template>
-            </el-dropdown>
-          </router-link>
+            <span>
+              {{ tag.meta.title }}
+              <!-- affix固定的路由tag是无法删除 -->
+              <span
+                v-if="!isAffix(tag)"
+                class="el-icon-close"
+                @click.prevent.stop="closeSelectedTag(tag)"
+              ></span>
+            </span>
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item command="refresh">刷新</el-dropdown-item>
+                <el-dropdown-item command="all">关闭所有</el-dropdown-item>
+                <el-dropdown-item command="other">关闭其他</el-dropdown-item>
+                <el-dropdown-item
+                  command="self"
+                  v-if="!tag.meta || !tag.meta.affix"
+                  >关闭</el-dropdown-item
+                >
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
+        </router-link>
       </div>
     </scroll-panel>
   </div>
@@ -46,7 +55,7 @@ import { useRoute, RouteRecordRaw, useRouter } from 'vue-router'
 import { useStore } from '@/store'
 import { RouteLocationWithFullPath } from '@/store/modules/tagsView'
 import { routes } from '@/router'
-import ScrollPanel from './ScrollPanel.vue'
+import ScrollPanel from '@/components/ScrollPanel/index.vue'
 
 // 右键菜单
 enum TagCommandType {
@@ -68,7 +77,10 @@ export default defineComponent({
     // 可显示的tags view
     const visitedTags = computed(() => store.state.tagsView.visitedViews)
     // 从路由表中过滤出要affixed tagviews
-    const fillterAffixTags = (routes: Array<RouteLocationWithFullPath | RouteRecordRaw>, basePath = '/') => {
+    const fillterAffixTags = (
+      routes: Array<RouteLocationWithFullPath | RouteRecordRaw>,
+      basePath = '/'
+    ) => {
       let tags: RouteLocationWithFullPath[] = []
       routes.forEach(route => {
         if (route.meta && route.meta.affix) {
@@ -112,9 +124,12 @@ export default defineComponent({
     }
 
     // 路径发生变化追加tags view
-    watch(() => route.path, () => {
-      addTags()
-    })
+    watch(
+      () => route.path,
+      () => {
+        addTags()
+      }
+    )
 
     // 最近当前router到tags view
     onMounted(() => {
@@ -128,15 +143,19 @@ export default defineComponent({
     }
 
     // 让删除后tags view集合中最后一个为选中状态
-    const toLastView = (visitedViews: RouteLocationWithFullPath[], view: RouteLocationWithFullPath) => {
+    const toLastView = (
+      visitedViews: RouteLocationWithFullPath[],
+      view: RouteLocationWithFullPath
+    ) => {
       // 得到集合中最后一个项tag view 可能没有
       const lastView = visitedViews[visitedViews.length - 1]
       if (lastView) {
         router.push(lastView.fullPath as string)
-      } else { // 集合中都没有tag view时
+      } else {
+        // 集合中都没有tag view时
         // 如果刚刚删除的正是Dashboard 就重定向回Dashboard（首页）
         if (view.name === 'Dashboard') {
-          router.replace({ path: '/redirect' + view.fullPath as string })
+          router.replace({ path: ('/redirect' + view.fullPath) as string })
         } else {
           // tag都没有了 删除的也不是Dashboard 只能跳转首页
           router.push('/')
@@ -161,7 +180,10 @@ export default defineComponent({
     }
 
     // 右键菜单
-    const handleTagCommand = (command: TagCommandType, view: RouteLocationWithFullPath) => {
+    const handleTagCommand = (
+      command: TagCommandType,
+      view: RouteLocationWithFullPath
+    ) => {
       switch (command) {
         case TagCommandType.All: // 右键删除标签导航所有tag 除了affix为true的
           handleCloseAllTag(view)
@@ -189,7 +211,8 @@ export default defineComponent({
     // 删除其他tag 除了当前右键的tag
     const handleCloseOtherTag = (view: RouteLocationWithFullPath) => {
       store.dispatch('tagsView/delOthersViews', view).then(() => {
-        if (!isActive(view)) { // 删除其他tag后 让该view路由激活
+        if (!isActive(view)) {
+          // 删除其他tag后 让该view路由激活
           router.push(view.path)
         }
       })
@@ -206,12 +229,16 @@ export default defineComponent({
       })
     }
 
+    // 获取主题色
+    const themeColor = computed(() => store.getters.themeColor)
+
     return {
       visitedTags,
       isActive,
       closeSelectedTag,
       isAffix,
-      handleTagCommand
+      handleTagCommand,
+      themeColor
     }
   }
 })
@@ -222,7 +249,7 @@ export default defineComponent({
   height: 34px;
   background: #fff;
   border-bottom: 1px solid #d8dce5;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .12), 0 0 3px 0 rgba(0, 0, 0, .04);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 0 3px 0 rgba(0, 0, 0, 0.04);
   overflow: hidden;
   .tags-view-wrapper {
     .tags-view-item {
@@ -244,9 +271,9 @@ export default defineComponent({
         margin-right: 15px;
       }
       &.active {
-        background-color: #42b983;
+        background-color: #409eff;
         color: #fff;
-        border-color: #42b983;
+        border-color: #409eff;
         ::v-deep {
           .el-dropdown {
             color: #fff;
@@ -276,10 +303,10 @@ export default defineComponent({
     vertical-align: 2px;
     border-radius: 50%;
     text-align: center;
-    transition: all .3s cubic-bezier(.645, .045, .355, 1);
+    transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
     transform-origin: 100% 50%;
     &:before {
-      transform: scale(.6);
+      transform: scale(0.6);
       display: inline-block;
       vertical-align: -3px;
     }

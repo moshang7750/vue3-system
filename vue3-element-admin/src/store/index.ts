@@ -5,11 +5,13 @@ import app, { IAppState } from '@/store/modules/app'
 // import test, { ICountState } from './modules/test'
 import getters from './getters'
 import tagsView, { ITagsViewState } from './modules/tagsView'
+import settings, { ISettingsState } from './modules/settings'
 
 // 模块声明在根状态下
 export interface IRootState {
-  app: IAppState;
-  tagsView: ITagsViewState;
+  app: IAppState
+  tagsView: ITagsViewState
+  settings: ISettingsState
   // test: ICountState;
 }
 
@@ -25,12 +27,20 @@ export const key: InjectionKey<Store<IRootState>> = Symbol()
 // https://github.com/vuejs/vuex/pull/1896/files#diff-093ad82a25aee498b11febf1cdcb6546e4d223ffcb49ed69cc275ac27ce0ccce
 
 // vuex store持久化 默认使用localstorage持久化
+// 只针对app模块下sidebar.opened状态持久化
+
 const persisteAppState = createPersistedState({
   storage: window.sessionStorage, // 指定storage 也可自定义
   key: 'vuex_app', // 存储名 默认都是vuex 多个模块需要指定 否则会覆盖
   // paths: ['app'] // 针对app这个模块持久化
   // 只针对app模块下sidebar.opened状态持久化
   paths: ['app.sidebar.opened', 'app.size'] // 通过点连接符指定state路径
+})
+
+const persisteSettingsState = createPersistedState({
+  storage: window.sessionStorage, // 指定storage 也可自定义
+  key: 'vuex_setting', // 存储名 默认都是vuex 多个模块需要指定 否则会覆盖
+  paths: ['settings.theme', 'settings.originalStyle', 'settings.tagsView', 'settings.sidebarLogo'] // 通过点连接符指定state路径
 })
 
 // 针对test模块持久化
@@ -41,13 +51,15 @@ const persisteAppState = createPersistedState({
 // })
 export default createStore<IRootState>({
   plugins: [
-    persisteAppState
+    persisteAppState,
+    persisteSettingsState
     // persisteTestState // 只是测试多模块持久化
   ],
   getters,
   modules: {
     app,
-    tagsView
+    tagsView,
+    settings
     // test // 只是测试多模块持久化
   }
 })

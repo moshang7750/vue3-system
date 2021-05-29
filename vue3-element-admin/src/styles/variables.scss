@@ -21,6 +21,10 @@ $subMenuHover:#001528;
 
 $sideBarWidth: 210px;
 
+$settingPanelWidth: 260px;
+// 默认主题色
+$theme: #409EFF;
+
 // The :export directive is the magic sauce for webpack
 // https://mattferderer.com/use-sass-variables-in-typescript-and-javascript
 :export {
@@ -32,4 +36,6 @@ $sideBarWidth: 210px;
   subMenuBg: $subMenuBg;
   subMenuHover: $subMenuHover;
   sideBarWidth: $sideBarWidth;
+  theme: $theme;
+  settingPanelWidth: $settingPanelWidth;
 }
